@@ -104,11 +104,10 @@ public class ScheduleAdapterItem extends
             List payloads) {
 
         if (itemData.speakerName == null) {
-            holder.sessionLayout.setVisibility(View.GONE);
             holder.avatar.setVisibility(View.GONE);
-            holder.bigTitle.setVisibility(View.VISIBLE);
+            holder.timeText.setVisibility(View.VISIBLE);
 
-            holder.bigTitle.setText(itemData.talkTitle);
+            holder.timeText.setText(itemData.talkTitle);
 
             if (itemData.photo == null) {
                 holder.rootLayout.setBackground(null);
@@ -116,9 +115,8 @@ public class ScheduleAdapterItem extends
                 addBackgroundRipple(holder);
             }
         } else {
-            holder.sessionLayout.setVisibility(View.VISIBLE);
             holder.avatar.setVisibility(View.VISIBLE);
-            holder.bigTitle.setVisibility(View.GONE);
+            holder.timeText.setVisibility(View.GONE);
 
             holder.title.setText(itemData.talkTitle);
             holder.speaker.setText(itemData.speakerName);
@@ -155,9 +153,7 @@ public class ScheduleAdapterItem extends
 
         TextView room;
 
-        View sessionLayout;
-
-        TextView bigTitle;
+        TextView timeText;
 
         ViewHolder(View view, FlexibleAdapter adapter) {
             super(view, adapter);
@@ -167,18 +163,16 @@ public class ScheduleAdapterItem extends
 
         public ViewHolder(View view, FlexibleAdapter adapter, boolean stickyHeader) {
             super(view, adapter, stickyHeader);
-
             findViews(view);
         }
 
         private void findViews(View parent) {
             rootLayout = parent.findViewById(R.id.rootLayout);
-            avatar = (ImageView) parent.findViewById(R.id.speaker_image);
-            title = (TextView) parent.findViewById(R.id.title_text);
-            speaker = (TextView) parent.findViewById(R.id.speaker_name_text);
-            room = (TextView) parent.findViewById(R.id.room_text);
-            sessionLayout = parent.findViewById(R.id.session_layout);
-            bigTitle = (TextView) parent.findViewById(R.id.bigtitle_text);
+            avatar = parent.findViewById(R.id.speaker_image);
+            title = parent.findViewById(R.id.title_text);
+            speaker = parent.findViewById(R.id.speaker_name_text);
+            room = parent.findViewById(R.id.room_text);
+            timeText = parent.findViewById(R.id.time_text);
         }
     }
 }

@@ -6,9 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -176,7 +174,7 @@ public class ScheduleDatabase extends SQLiteAssetHelper {
         //all rows
         if (c.moveToFirst()) {
             //why not use square brackets?
-            items = new ArrayList<ScheduleRow>(c.getCount());
+            items = new ArrayList<>(c.getCount());
             ScheduleRow item;
             do {
                 item = new ScheduleRow();

@@ -25,9 +25,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
     @Override
     public ScheduleItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.schedule_card_view, parent, false);
-        ScheduleItemViewHolder holder = new ScheduleItemViewHolder(view);
-        return holder;
+                R.layout.schedule_item, parent, false);
+        return new ScheduleItemViewHolder(view);
     }
 
     @Override
@@ -42,7 +41,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         @BindView(R.id.time_text)
         TextView timeText;
 
-        @BindView(R.id.description_text)
+        @BindView(R.id.room_text)
         TextView locationText;
 
         @BindView(R.id.speaker_name_text)
