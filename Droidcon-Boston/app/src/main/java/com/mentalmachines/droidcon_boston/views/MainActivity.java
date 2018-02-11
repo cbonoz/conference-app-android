@@ -1,163 +1,142 @@
 package com.mentalmachines.droidcon_boston.views;
 
-import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import com.mentalmachines.droidcon_boston.R;
 import com.mentalmachines.droidcon_boston.views.agenda.AgendaFragment;
-import com.twitter.sdk.android.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-import io.fabric.sdk.android.Fabric;
+import com.mentalmachines.droidcon_boston.views.myschedule.MyScheduleFragment;
+import com.mentalmachines.droidcon_boston.views.social.SocialFragment;
+import com.mentalmachines.droidcon_boston.views.speakers.SpeakersFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-    private static final String TWITTER_KEY = "csLPIPIQ6AoWyhzCSHlK2lOen";
-
-    private static final String TWITTER_SECRET = "p3c45qpNvIOQiTZi6iK9Cffb3xRH4X7SThT4EfVo7fIu42SNWD";
-
     final FragmentManager fragmentManager = getSupportFragmentManager();
 
-    ActionBarDrawerToggle drawerToggle;
+    DrawerLayout androidDrawerLayout;
 
-    DrawerLayout mDrawerLayout;
+    ActionBarDrawerToggle actionBarDrawerToggle;
 
-    ListView mDrawerList;
+    NavigationView navigationView;
+
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-        Fabric.with(this, new Twitter(authConfig));
-        Toolbar toolbar = findViewById(R.id.toolbar);
+
+        initNavDrawerToggle();
+
+        replaceFragment(new AgendaFragment(), "Agenda");
+    }
+
+
+    private void initNavDrawerToggle() {
+
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-        drawerToggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
-        mDrawerLayout.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
-        mDrawerList = findViewById(R.id.fragmentList);
-        mDrawerList.setAdapter(new NavigationAdapter(this));
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-        fragmentManager.beginTransaction().replace(R.id.fragment_container, new AgendaFragment()).commit();
+        androidDrawerLayout = findViewById(R.id.drawer_layout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, androidDrawerLayout,
+                R.string.drawer_open, R.string.drawer_close);
+        androidDrawerLayout.addDrawerListener(actionBarDrawerToggle);
+
+        navigationView = findViewById(R.id.navView);
+        navigationView.setNavigationItemSelectedListener(item -> {
+
+            //Checking if the item is in checked state or not, if not make it in checked state
+            if (item.isChecked()) {
+                item.setChecked(false);
+            } else {
+                item.setChecked(true);
+            }
+
+            //Closing drawer on item click
+            androidDrawerLayout.closeDrawers();
+
+            switch (item.getItemId()) {
+                // Respond to the action bar's Up/Home button
+                case android.R.id.home:
+                    if (fragmentManager.getBackStackEntryCount() > 0) {
+                        fragmentManager.popBackStack();
+                    } else if (fragmentManager.getBackStackEntryCount() == 1) {
+                        // to avoid looping below on initScreen
+                        super.onBackPressed();
+                        finish();
+                    }
+                    break;
+                case R.id.nav_agenda:
+                    replaceFragment(new AgendaFragment(), "Agenda");
+                    break;
+                case R.id.nav_my_schedule:
+                    replaceFragment(new MyScheduleFragment(), "My Schedule");
+                    break;
+                case R.id.nav_speakers:
+                    replaceFragment(new SpeakersFragment(), "Speakers");
+                    break;
+                case R.id.nav_social:
+                    replaceFragment(new SocialFragment(), "Social");
+                    break;
+                case R.id.nav_settings:
+                    replaceFragment(new SettingsFragment(), "Settings");
+                    break;
+                case R.id.nav_faq:
+                    replaceFragment(new FAQFragment(), "FAQ");
+                    break;
+                case R.id.nav_about_us:
+
+                    replaceFragment(new AboutUsFragment(), "About Us");
+                    break;
+                case R.id.nav_coc:
+                    replaceFragment(new CocFragment(), "Code Of Conduct");
+                    break;
+            }
+            return true;
+        });
+
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
+    public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        drawerToggle.syncState();
+        actionBarDrawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
+        actionBarDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
-        /*if (drawerToggle.onOptionsItemSelected(item)) {
+
+        // This is required to make the drawer toggle work
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
             return true;
-        }*/
-        // Handle your other action bar items...
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                if (fragmentManager.getBackStackEntryCount() > 0) {
-                    fragmentManager.popBackStack();
-                } else if (fragmentManager.getBackStackEntryCount() == 1) {
-                    // to avoid looping below on initScreen
-                    super.onBackPressed();
-                    finish();
-                } else {
-                    if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
-                    }
-                }
-                return true;
         }
-        return false;
+
+        return super.onOptionsItemSelected(item);
     }
 
-
-    @Override
-    public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-            return;
-        }
-
-        super.onBackPressed();
+    private void replaceFragment(Fragment fragment, String title) {
+        updateToolbarTitle(title);
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }
 
-
-    class DrawerItemClickListener implements ListView.OnItemClickListener {
-
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            if (position < 3) {
-                ((NavigationAdapter) parent.getAdapter()).setSelectedIndex(position);
-            } //others are contact links
-            Uri data = null;
-            switch (position) {
-                case 0: //agenda
-                    fragmentManager.beginTransaction().replace(R.id.fragment_container, new AgendaFragment())
-                            .commit();
-                    break;
-                case 1: //tweet
-                    fragmentManager.beginTransaction().replace(R.id.fragment_container, new TweetsFragment())
-                            .commit();
-                    break;
-                case 2: //faq
-                    fragmentManager.beginTransaction().replace(R.id.fragment_container, new FAQFragment()).commit();
-                    break;
-                case 3: //contact us
-                    data = Uri.parse(NavigationAdapter.LN_CONTACT);
-                    break;
-                case 4: //contact, facebook
-                    data = Uri.parse(NavigationAdapter.LN_FB);
-                    break;
-                case 5:
-                    data = Uri.parse(NavigationAdapter.LN_INSTA);
-                    break;
-                case 6:
-                    data = Uri.parse(NavigationAdapter.LN_LINKD);
-                    break;
-                case 7: //contact twitter, instagram, linked in
-                    data = Uri.parse(NavigationAdapter.LN_TWEET);
-                    break;
-            }
-            if (data == null) {
-                fragmentManager.executePendingTransactions();
-            } else {
-                final Intent tnt = new Intent(Intent.ACTION_VIEW);
-                tnt.setData(data);
-                startActivity(tnt);
-            }
-            mDrawerLayout.closeDrawer(GravityCompat.START);
+    private void updateToolbarTitle(String title) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
         }
-    } //end click listener
-
-    public void faqClick(View v) {
-        final Intent tnt = new Intent(Intent.ACTION_VIEW);
-        tnt.setData(Uri.parse((String) v.getTag()));
-        startActivity(tnt);
     }
 }
