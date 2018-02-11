@@ -18,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/emo_im_cool" />
+        tools:src="@drawable/placeholder" />
 
     <TextView
         android:id="@+id/agenda_detail_tv_talktime"
@@ -43,7 +43,7 @@
         android:id="@+id/agenda_detail_tv_talkroom"
         android:layout_width="0dp"
         android:layout_height="32dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="90dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:drawablePadding="10dp"
@@ -60,6 +60,7 @@
 
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -149,5 +150,21 @@
         app:layout_constraintStart_toEndOf="@+id/agenda_detail_img_speaker"
         app:layout_constraintTop_toBottomOf="@+id/agenda_detail_tv_speaker_name"
         tools:text="Software Engineer" />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/agenda_detail_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_star"
+        app:layout_constraintBottom_toTopOf="@+id/agenda_detail_tv_talkroom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.937"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/agenda_detail_img_headerbg"
+        app:layout_constraintVertical_bias="0.75" />
 
 </android.support.constraint.ConstraintLayout>

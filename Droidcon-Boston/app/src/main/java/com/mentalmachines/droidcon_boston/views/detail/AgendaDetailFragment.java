@@ -5,6 +5,7 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,9 @@ import com.mentalmachines.droidcon_boston.data.ScheduleDatabase;
 import com.mentalmachines.droidcon_boston.views.agenda.CircleTransform;
 
 public class AgendaDetailFragment extends Fragment {
+
+  @BindView(R.id.agenda_detail_fab)
+  FloatingActionButton favFab;
 
   @BindView(R.id.agenda_detail_img_headerbg)
   ImageView imgHeaderBg;
@@ -87,6 +91,10 @@ public class AgendaDetailFragment extends Fragment {
     textSpeakerName.setText(scheduleDetail.listRow.speakerName);
     textSpeakerBio.setText("Android Developer");
     textDescription.setText(scheduleDetail.talkDescription);
+
+    favFab.setOnClickListener(v -> {
+      // Todo: Save fav talk
+    });
   }
 }
 
