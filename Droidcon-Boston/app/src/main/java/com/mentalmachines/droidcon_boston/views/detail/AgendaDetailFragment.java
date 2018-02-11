@@ -1,6 +1,8 @@
 package com.mentalmachines.droidcon_boston.views.detail;
 
 import android.app.Fragment;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -13,39 +15,32 @@ import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.mentalmachines.droidcon_boston.R;
 import com.mentalmachines.droidcon_boston.data.ScheduleDatabase;
-import com.mentalmachines.droidcon_boston.utils.StringUtils;
 import com.mentalmachines.droidcon_boston.views.agenda.CircleTransform;
 
 public class AgendaDetailFragment extends Fragment {
 
-  @BindView(R.id.image_facebook)
-  ImageView imageFacebook;
+  @BindView(R.id.agenda_detail_img_headerbg)
+  ImageView imgHeaderBg;
 
-  @BindView(R.id.image_linkedin)
-  ImageView imageLinkedin;
-
-  @BindView(R.id.image_speaker)
+  @BindView(R.id.agenda_detail_img_speaker)
   ImageView imageSpeaker;
 
-  @BindView(R.id.image_twitter)
-  ImageView imageTwitter;
-
-  @BindView(R.id.text_description)
+  @BindView(R.id.agenda_detail_tv_talkdescription)
   TextView textDescription;
 
-  @BindView(R.id.text_room)
+  @BindView(R.id.agenda_detail_tv_talkroom)
   TextView textRoom;
 
-  @BindView(R.id.text_speaker_bio)
+  @BindView(R.id.agenda_detail_tv_speaker_bio)
   TextView textSpeakerBio;
 
-  @BindView(R.id.text_speaker_name)
+  @BindView(R.id.agenda_detail_tv_speaker_name)
   TextView textSpeakerName;
 
-  @BindView(R.id.text_time)
+  @BindView(R.id.agenda_detail_tv_talktime)
   TextView textTime;
 
-  @BindView(R.id.text_title)
+  @BindView(R.id.agenda_detail_tv_talktitle)
   TextView textTitle;
 
   @Nullable
@@ -76,26 +71,22 @@ public class AgendaDetailFragment extends Fragment {
         .crossFade()
         .into(imageSpeaker);
 
+    Glide.with(this)
+        .load(scheduleDetail.listRow.photo)
+        .placeholder(R.drawable.placeholder)
+        .crossFade()
+        .into(imgHeaderBg);
+
+    // Apply grayscale filter
+    ColorMatrix matrix = new ColorMatrix();
+    matrix.setSaturation(0);
+    ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+    imgHeaderBg.setColorFilter(filter);
+
     textTitle.setText(scheduleDetail.listRow.talkTitle);
     textSpeakerName.setText(scheduleDetail.listRow.speakerName);
-    textSpeakerBio.setText(scheduleDetail.speakerBio);
+    textSpeakerBio.setText("Android Developer");
     textDescription.setText(scheduleDetail.talkDescription);
-
-    if (StringUtils.isNullorEmpty(scheduleDetail.twitter)) {
-      imageTwitter.setVisibility(View.GONE);
-    } else {
-      imageTwitter.setTag(scheduleDetail.twitter);
-    }
-    if (StringUtils.isNullorEmpty(scheduleDetail.linkedIn)) {
-      imageLinkedin.setVisibility(View.GONE);
-    } else {
-      imageLinkedin.setTag(scheduleDetail.linkedIn);
-    }
-    if (StringUtils.isNullorEmpty(scheduleDetail.facebook)) {
-      imageFacebook.setVisibility(View.GONE);
-    } else {
-      imageFacebook.setTag(scheduleDetail.facebook);
-    }
   }
 }
 

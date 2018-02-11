@@ -140,9 +140,8 @@ public class AgendaDayFragment extends Fragment {
                 AgendaDetailFragment agendaDetailFragment = new AgendaDetailFragment();
                 agendaDetailFragment.setArguments(arguments);
 
-                FragmentManager fragmentManager = getActivity().getFragmentManager();
-                fragmentManager.beginTransaction()
-                    .add(R.id.fragment_container, agendaDetailFragment)
+                getActivity().getFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, agendaDetailFragment)
                     .addToBackStack(null)
                     .commit();
               }
