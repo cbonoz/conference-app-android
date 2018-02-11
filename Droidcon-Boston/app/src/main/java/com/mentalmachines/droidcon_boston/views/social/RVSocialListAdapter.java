@@ -14,46 +14,45 @@ import java.util.ArrayList;
 
 class RVSocialListAdapter extends Adapter<RVSocialListAdapter.ListViewHolder> {
 
-    ArrayList<SocialModal> socialList;
+  public class ListViewHolder extends ViewHolder {
 
-    public RVSocialListAdapter(final ArrayList<SocialModal> socialList) {
-        this.socialList = socialList;
+    ImageView imageView;
+
+    TextView txtView;
+
+    public ListViewHolder(final View itemView) {
+      super(itemView);
+      imageView = itemView.findViewById(R.id.social_item_img);
+      txtView = itemView.findViewById(R.id.social_item_tv);
     }
+  }
+
+  ArrayList<SocialModal> socialList;
 
 
-    @Override
-    public ListViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
-        Context context = parent.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.social_list_item, parent, false);
-        return new RVSocialListAdapter.ListViewHolder(view);
-    }
+  public RVSocialListAdapter(final ArrayList<SocialModal> socialList) {
+    this.socialList = socialList;
+  }
 
-    @Override
-    public void onBindViewHolder(final ListViewHolder holder, final int position) {
-        SocialModal socialModal = socialList.get(position);
+  @Override
+  public int getItemCount() {
+    return socialList.size();
+  }
 
-        holder.txtView.setText(socialModal.getName());
+  @Override
+  public void onBindViewHolder(final ListViewHolder holder, final int position) {
+    SocialModal socialModal = socialList.get(position);
 
-        holder.imageView.setImageResource(socialModal.getImage_resid());
+    holder.txtView.setText(socialModal.getName());
 
-    }
+    holder.imageView.setImageResource(socialModal.getImage_resid());
 
-    @Override
-    public int getItemCount() {
-        return socialList.size();
-    }
+  }
 
-
-    public class ListViewHolder extends ViewHolder {
-
-        ImageView imageView;
-
-        TextView txtView;
-
-        public ListViewHolder(final View itemView) {
-            super(itemView);
-            imageView = itemView.findViewById(R.id.social_item_img);
-            txtView = itemView.findViewById(R.id.social_item_tv);
-        }
-    }
+  @Override
+  public ListViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+    Context context = parent.getContext();
+    View view = LayoutInflater.from(context).inflate(R.layout.social_list_item, parent, false);
+    return new RVSocialListAdapter.ListViewHolder(view);
+  }
 }

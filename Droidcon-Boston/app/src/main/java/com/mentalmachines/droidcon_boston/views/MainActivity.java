@@ -18,125 +18,124 @@ import com.mentalmachines.droidcon_boston.views.speakers.SpeakersFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    final FragmentManager fragmentManager = getSupportFragmentManager();
+  ActionBarDrawerToggle actionBarDrawerToggle;
 
-    DrawerLayout androidDrawerLayout;
+  DrawerLayout androidDrawerLayout;
 
-    ActionBarDrawerToggle actionBarDrawerToggle;
+  final FragmentManager fragmentManager = getSupportFragmentManager();
 
-    NavigationView navigationView;
+  NavigationView navigationView;
 
-    Toolbar toolbar;
+  Toolbar toolbar;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main_activity);
 
-        initNavDrawerToggle();
+    initNavDrawerToggle();
 
-        replaceFragment(new AgendaFragment(), "Agenda");
+    replaceFragment(new AgendaFragment(), "Agenda");
+  }
+
+  @Override
+  public void onPostCreate(Bundle savedInstanceState) {
+    super.onPostCreate(savedInstanceState);
+    actionBarDrawerToggle.syncState();
+  }
+
+  @Override
+  public void onConfigurationChanged(Configuration newConfig) {
+    super.onConfigurationChanged(newConfig);
+    actionBarDrawerToggle.onConfigurationChanged(newConfig);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+
+    // This is required to make the drawer toggle work
+    if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+      return true;
     }
 
+    return super.onOptionsItemSelected(item);
+  }
 
-    private void initNavDrawerToggle() {
+  private void initNavDrawerToggle() {
 
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    toolbar = findViewById(R.id.toolbar);
+    setSupportActionBar(toolbar);
 
-        androidDrawerLayout = findViewById(R.id.drawer_layout);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, androidDrawerLayout,
-                R.string.drawer_open, R.string.drawer_close);
-        androidDrawerLayout.addDrawerListener(actionBarDrawerToggle);
+    androidDrawerLayout = findViewById(R.id.drawer_layout);
+    actionBarDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, androidDrawerLayout,
+        R.string.drawer_open, R.string.drawer_close);
+    androidDrawerLayout.addDrawerListener(actionBarDrawerToggle);
 
-        navigationView = findViewById(R.id.navView);
-        navigationView.setNavigationItemSelectedListener(item -> {
+    navigationView = findViewById(R.id.navView);
+    navigationView.setNavigationItemSelectedListener(item -> {
 
-            //Checking if the item is in checked state or not, if not make it in checked state
-            if (item.isChecked()) {
-                item.setChecked(false);
-            } else {
-                item.setChecked(true);
-            }
+      //Checking if the item is in checked state or not, if not make it in checked state
+      if (item.isChecked()) {
+        item.setChecked(false);
+      } else {
+        item.setChecked(true);
+      }
 
-            //Closing drawer on item click
-            androidDrawerLayout.closeDrawers();
+      //Closing drawer on item click
+      androidDrawerLayout.closeDrawers();
 
-            switch (item.getItemId()) {
-                // Respond to the action bar's Up/Home button
-                case android.R.id.home:
-                    if (fragmentManager.getBackStackEntryCount() > 0) {
-                        fragmentManager.popBackStack();
-                    } else if (fragmentManager.getBackStackEntryCount() == 1) {
-                        // to avoid looping below on initScreen
-                        super.onBackPressed();
-                        finish();
-                    }
-                    break;
-                case R.id.nav_agenda:
-                    replaceFragment(new AgendaFragment(), "Agenda");
-                    break;
-                case R.id.nav_my_schedule:
-                    replaceFragment(new MyScheduleFragment(), "My Schedule");
-                    break;
-                case R.id.nav_speakers:
-                    replaceFragment(new SpeakersFragment(), "Speakers");
-                    break;
-                case R.id.nav_social:
-                    replaceFragment(new SocialFragment(), "Social");
-                    break;
-                case R.id.nav_settings:
-                    replaceFragment(new SettingsFragment(), "Settings");
-                    break;
-                case R.id.nav_faq:
-                    replaceFragment(new FAQFragment(), "FAQ");
-                    break;
-                case R.id.nav_about_us:
+      switch (item.getItemId()) {
+        // Respond to the action bar's Up/Home button
+        case android.R.id.home:
+          if (fragmentManager.getBackStackEntryCount() > 0) {
+            fragmentManager.popBackStack();
+          } else if (fragmentManager.getBackStackEntryCount() == 1) {
+            // to avoid looping below on initScreen
+            super.onBackPressed();
+            finish();
+          }
+          break;
+        case R.id.nav_agenda:
+          replaceFragment(new AgendaFragment(), "Agenda");
+          break;
+        case R.id.nav_my_schedule:
+          replaceFragment(new MyScheduleFragment(), "My Schedule");
+          break;
+        case R.id.nav_speakers:
+          replaceFragment(new SpeakersFragment(), "Speakers");
+          break;
+        case R.id.nav_social:
+          replaceFragment(new SocialFragment(), "Social");
+          break;
+        case R.id.nav_settings:
+          replaceFragment(new SettingsFragment(), "Settings");
+          break;
+        case R.id.nav_faq:
+          replaceFragment(new FAQFragment(), "FAQ");
+          break;
+        case R.id.nav_about_us:
 
-                    replaceFragment(new AboutUsFragment(), "About Us");
-                    break;
-                case R.id.nav_coc:
-                    replaceFragment(new CocFragment(), "Code Of Conduct");
-                    break;
-            }
-            return true;
-        });
+          replaceFragment(new AboutUsFragment(), "About Us");
+          break;
+        case R.id.nav_coc:
+          replaceFragment(new CocFragment(), "Code Of Conduct");
+          break;
+      }
+      return true;
+    });
 
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    getSupportActionBar().setHomeButtonEnabled(true);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+  }
+
+  private void replaceFragment(Fragment fragment, String title) {
+    updateToolbarTitle(title);
+    fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+  }
+
+  private void updateToolbarTitle(String title) {
+    if (getSupportActionBar() != null) {
+      getSupportActionBar().setTitle(title);
     }
-
-    @Override
-    public void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        actionBarDrawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        actionBarDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        // This is required to make the drawer toggle work
-        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void replaceFragment(Fragment fragment, String title) {
-        updateToolbarTitle(title);
-        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
-    }
-
-    private void updateToolbarTitle(String title) {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(title);
-        }
-    }
+  }
 }

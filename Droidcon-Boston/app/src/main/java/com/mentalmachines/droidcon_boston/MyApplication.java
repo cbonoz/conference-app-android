@@ -8,13 +8,13 @@ import io.fabric.sdk.android.Fabric;
 
 public class MyApplication extends Application {
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
+  @Override
+  public void onCreate() {
+    super.onCreate();
 
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(getResources().getString(R.string.twitter_key),
-                getResources().getString(R.string.twitter_secret));
-        
-        Fabric.with(this, new Twitter(authConfig));
-    }
+    TwitterAuthConfig authConfig = new TwitterAuthConfig(getResources().getString(R.string.twitter_key),
+        getResources().getString(R.string.twitter_secret));
+
+    Fabric.with(this, new Twitter(authConfig));
+  }
 }

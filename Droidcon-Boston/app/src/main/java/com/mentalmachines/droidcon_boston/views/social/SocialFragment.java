@@ -18,48 +18,47 @@ import java.util.ArrayList;
 
 public class SocialFragment extends Fragment {
 
-    ArrayList<SocialModal> socialList;
+  ArrayList<SocialModal> socialList;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.social_fragment, container, false);
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    super.onCreateView(inflater, container, savedInstanceState);
+    View view = inflater.inflate(R.layout.social_fragment, container, false);
 
-        RecyclerView rv = view.findViewById(R.id.social_rv);
+    RecyclerView rv = view.findViewById(R.id.social_rv);
 
-        // Set Layout Manager
-        rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+    // Set Layout Manager
+    rv.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        // Set the divider
-        rv.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+    // Set the divider
+    rv.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
 
-        socialList = prepareSocialList();
-        // Set Adapter
-        rv.setAdapter(new RVSocialListAdapter(socialList));
+    socialList = prepareSocialList();
+    // Set Adapter
+    rv.setAdapter(new RVSocialListAdapter(socialList));
 
-        // Set On Click
-        rv.addOnItemTouchListener(new RVItemClickListener(getActivity(),
-                (view1, position) -> executeLink(socialList.get(position).getLink())));
+    // Set On Click
+    rv.addOnItemTouchListener(new RVItemClickListener(getActivity(),
+        (view1, position) -> executeLink(socialList.get(position).getLink())));
 
-        return view;
-    }
+    return view;
+  }
 
-    private ArrayList<SocialModal> prepareSocialList() {
-        ArrayList<SocialModal> socialList = new ArrayList<>();
-        socialList.add(new SocialModal(R.drawable.facebook, "Facebook", AppConstants.SOCIAL_LINK_FB));
-        socialList.add(new SocialModal(R.drawable.instagram, "Instagram", AppConstants.SOCIAL_LINK_INSTA));
-        socialList.add(new SocialModal(R.drawable.linkedin, "Linkedin", AppConstants.SOCIAL_LINK_LINKD));
-        socialList.add(new SocialModal(R.drawable.twitter, "Twitter", AppConstants.SOCIAL_LINK_TWEET));
-        return socialList;
+  private void executeLink(String link) {
+    Uri data = Uri.parse(link);
+    final Intent intent = new Intent(Intent.ACTION_VIEW);
+    intent.setData(data);
+    startActivity(intent);
+  }
 
-    }
+  private ArrayList<SocialModal> prepareSocialList() {
+    ArrayList<SocialModal> socialList = new ArrayList<>();
+    socialList.add(new SocialModal(R.drawable.facebook, "Facebook", AppConstants.SOCIAL_LINK_FB));
+    socialList.add(new SocialModal(R.drawable.instagram, "Instagram", AppConstants.SOCIAL_LINK_INSTA));
+    socialList.add(new SocialModal(R.drawable.linkedin, "Linkedin", AppConstants.SOCIAL_LINK_LINKD));
+    socialList.add(new SocialModal(R.drawable.twitter, "Twitter", AppConstants.SOCIAL_LINK_TWEET));
+    return socialList;
 
-
-    private void executeLink(String link) {
-        Uri data = Uri.parse(link);
-        final Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(data);
-        startActivity(intent);
-    }
+  }
 
 }

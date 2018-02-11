@@ -18,84 +18,85 @@ import com.mentalmachines.droidcon_boston.views.agenda.CircleTransform;
 
 public class AgendaDetailFragment extends Fragment {
 
-    @BindView(R.id.image_speaker)
-    ImageView imageSpeaker;
+  @BindView(R.id.image_facebook)
+  ImageView imageFacebook;
 
-    @BindView(R.id.text_title)
-    TextView textTitle;
+  @BindView(R.id.image_linkedin)
+  ImageView imageLinkedin;
 
-    @BindView(R.id.text_speaker_name)
-    TextView textSpeakerName;
+  @BindView(R.id.image_speaker)
+  ImageView imageSpeaker;
 
-    @BindView(R.id.text_speaker_bio)
-    TextView textSpeakerBio;
+  @BindView(R.id.image_twitter)
+  ImageView imageTwitter;
 
-    @BindView(R.id.text_description)
-    TextView textDescription;
+  @BindView(R.id.text_description)
+  TextView textDescription;
 
-    @BindView(R.id.image_twitter)
-    ImageView imageTwitter;
+  @BindView(R.id.text_room)
+  TextView textRoom;
 
-    @BindView(R.id.image_linkedin)
-    ImageView imageLinkedin;
+  @BindView(R.id.text_speaker_bio)
+  TextView textSpeakerBio;
 
-    @BindView(R.id.image_facebook)
-    ImageView imageFacebook;
+  @BindView(R.id.text_speaker_name)
+  TextView textSpeakerName;
 
-    @BindView(R.id.text_time)
-    TextView textTime;
+  @BindView(R.id.text_time)
+  TextView textTime;
 
-    @BindView(R.id.text_room)
-    TextView textRoom;
+  @BindView(R.id.text_title)
+  TextView textTitle;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.agenda_detail_fragment, container, false);
-        ButterKnife.bind(this, view);
+  @Nullable
+  @Override
+  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+      @Nullable Bundle savedInstanceState) {
+    super.onCreateView(inflater, container, savedInstanceState);
+    View view = inflater.inflate(R.layout.agenda_detail_fragment, container, false);
+    ButterKnife.bind(this, view);
 
-        Bundle bundle = getArguments();
-        String speakerName = bundle.getString(ScheduleDatabase.NAME);
-        ScheduleDatabase.ScheduleDetail scheduleDetail = ScheduleDatabase.fetchDetailData(getActivity().getApplicationContext(), speakerName);
-        showAgendaDetail(scheduleDetail);
+    Bundle bundle = getArguments();
+    String speakerName = bundle.getString(ScheduleDatabase.NAME);
+    ScheduleDatabase.ScheduleDetail scheduleDetail = ScheduleDatabase
+        .fetchDetailData(getActivity().getApplicationContext(), speakerName);
+    showAgendaDetail(scheduleDetail);
 
-        textTime.setText(bundle.getString(ScheduleDatabase.TALK_TIME));
-        textRoom.setText(bundle.getString(ScheduleDatabase.ROOM));
+    textTime.setText(bundle.getString(ScheduleDatabase.TALK_TIME));
+    textRoom.setText(bundle.getString(ScheduleDatabase.ROOM));
 
-        return view;
+    return view;
+  }
+
+  public void showAgendaDetail(ScheduleDatabase.ScheduleDetail scheduleDetail) {
+    Glide.with(this)
+        .load(scheduleDetail.listRow.photo)
+        .transform(new CircleTransform(getActivity().getApplicationContext()))
+        .placeholder(R.drawable.emo_im_cool)
+        .crossFade()
+        .into(imageSpeaker);
+
+    textTitle.setText(scheduleDetail.listRow.talkTitle);
+    textSpeakerName.setText(scheduleDetail.listRow.speakerName);
+    textSpeakerBio.setText(scheduleDetail.speakerBio);
+    textDescription.setText(scheduleDetail.talkDescription);
+
+    if (StringUtils.isNullorEmpty(scheduleDetail.twitter)) {
+      imageTwitter.setVisibility(View.GONE);
+    } else {
+      imageTwitter.setTag(scheduleDetail.twitter);
     }
-
-    public void showAgendaDetail(ScheduleDatabase.ScheduleDetail scheduleDetail) {
-        Glide.with(this)
-                .load(scheduleDetail.listRow.photo)
-                .transform(new CircleTransform(getActivity().getApplicationContext()))
-                .placeholder(R.drawable.emo_im_cool)
-                .crossFade()
-                .into(imageSpeaker);
-
-        textTitle.setText(scheduleDetail.listRow.talkTitle);
-        textSpeakerName.setText(scheduleDetail.listRow.speakerName);
-        textSpeakerBio.setText(scheduleDetail.speakerBio);
-        textDescription.setText(scheduleDetail.talkDescription);
-
-        if (StringUtils.isNullorEmpty(scheduleDetail.twitter)) {
-            imageTwitter.setVisibility(View.GONE);
-        } else {
-            imageTwitter.setTag(scheduleDetail.twitter);
-        }
-        if (StringUtils.isNullorEmpty(scheduleDetail.linkedIn)) {
-            imageLinkedin.setVisibility(View.GONE);
-        } else {
-            imageLinkedin.setTag(scheduleDetail.linkedIn);
-        }
-        if (StringUtils.isNullorEmpty(scheduleDetail.facebook)) {
-            imageFacebook.setVisibility(View.GONE);
-        } else {
-            imageFacebook.setTag(scheduleDetail.facebook);
-        }
+    if (StringUtils.isNullorEmpty(scheduleDetail.linkedIn)) {
+      imageLinkedin.setVisibility(View.GONE);
+    } else {
+      imageLinkedin.setTag(scheduleDetail.linkedIn);
     }
+    if (StringUtils.isNullorEmpty(scheduleDetail.facebook)) {
+      imageFacebook.setVisibility(View.GONE);
+    } else {
+      imageFacebook.setTag(scheduleDetail.facebook);
+    }
+  }
 }
 
 
