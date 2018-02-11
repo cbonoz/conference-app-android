@@ -62,7 +62,7 @@
             android:onClick="faqClick"
             android:padding="8dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_map" />
+            android:src="@drawable/ic_place" />
     </LinearLayout>
 
     <LinearLayout
@@ -121,7 +121,7 @@
                 android:onClick="faqClick"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_map" />
+                android:src="@drawable/ic_place" />
 
         </LinearLayout>
     </LinearLayout>

@@ -1,6 +1,8 @@
 package com.mentalmachines.droidcon_boston.views;
 
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -10,6 +12,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.mentalmachines.droidcon_boston.R;
 import com.mentalmachines.droidcon_boston.views.agenda.AgendaFragment;
 import com.mentalmachines.droidcon_boston.views.myschedule.MyScheduleFragment;
@@ -22,19 +27,26 @@ public class MainActivity extends AppCompatActivity {
 
   DrawerLayout androidDrawerLayout;
 
-  final FragmentManager fragmentManager = getSupportFragmentManager();
-
+  @BindView(R.id.navView)
   NavigationView navigationView;
 
+  @BindView(R.id.toolbar)
   Toolbar toolbar;
+
+  final FragmentManager fragmentManager = getSupportFragmentManager();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main_activity);
 
+    // Setup ButterKnife
+    ButterKnife.bind(this);
+
+    // Setup Navigation Drawer
     initNavDrawerToggle();
 
+    // Initially load Agenda Screen
     replaceFragment(new AgendaFragment(), "Agenda");
   }
 
@@ -137,5 +149,11 @@ public class MainActivity extends AppCompatActivity {
     if (getSupportActionBar() != null) {
       getSupportActionBar().setTitle(title);
     }
+  }
+
+  public void faqClick(View v) {
+    final Intent tnt = new Intent(Intent.ACTION_VIEW);
+    tnt.setData(Uri.parse((String) v.getTag()));
+    startActivity(tnt);
   }
 }
