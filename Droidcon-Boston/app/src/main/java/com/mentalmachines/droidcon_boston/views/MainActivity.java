@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.mentalmachines.droidcon_boston.R;
@@ -30,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
   @BindView(R.id.navView)
   NavigationView navigationView;
 
+  @BindView(R.id.img_splash)
+  ImageView imgSplash;
+
   @BindView(R.id.toolbar)
   Toolbar toolbar;
 
@@ -43,11 +48,21 @@ public class MainActivity extends AppCompatActivity {
     // Setup ButterKnife
     ButterKnife.bind(this);
 
+    removeSplashImageAfterDelay();
+
     // Setup Navigation Drawer
     initNavDrawerToggle();
 
     // Initially load Agenda Screen
     replaceFragment(new AgendaFragment(), "Agenda");
+  }
+
+
+  private void removeSplashImageAfterDelay() {
+    Handler handler = new Handler();
+    handler.postDelayed(() -> {
+      imgSplash.setVisibility(View.GONE);
+    }, 2000);
   }
 
   @Override
