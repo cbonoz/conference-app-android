@@ -33,13 +33,6 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </android.support.design.widget.CoordinatorLayout>
 
-    <ImageView
-        android:id="@+id/img_splash"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/splash_screen" />
-
     <!--this is the navigation drawer -->
     <android.support.design.widget.NavigationView
         android:id="@+id/navView"
