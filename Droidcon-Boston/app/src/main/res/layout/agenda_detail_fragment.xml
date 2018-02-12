@@ -92,7 +92,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:fontFamily="sans-serif"
-        android:gravity="right"
+        android:gravity="center"
         android:textColor="@color/colorBackground"
         android:textSize="24sp"
         android:textStyle="bold"

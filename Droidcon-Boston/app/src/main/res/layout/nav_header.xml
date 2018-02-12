@@ -17,7 +17,7 @@
         android:layout_marginBottom="18dp"
         android:layout_marginLeft="37dp"
         android:layout_marginRight="18dp"
-        android:text="Hello World"
+        android:text="Droidcon Boston'18"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
 </FrameLayout>

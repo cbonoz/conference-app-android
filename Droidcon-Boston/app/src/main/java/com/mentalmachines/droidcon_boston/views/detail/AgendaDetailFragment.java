@@ -1,8 +1,6 @@
 package com.mentalmachines.droidcon_boston.views.detail;
 
 import android.app.Fragment;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -76,16 +74,10 @@ public class AgendaDetailFragment extends Fragment {
         .into(imageSpeaker);
 
     Glide.with(this)
-        .load(scheduleDetail.listRow.photo)
+        .load(R.drawable.navigation_header_image)
         .placeholder(R.drawable.placeholder)
         .crossFade()
         .into(imgHeaderBg);
-
-    // Apply grayscale filter
-    ColorMatrix matrix = new ColorMatrix();
-    matrix.setSaturation(0);
-    ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
-    imgHeaderBg.setColorFilter(filter);
 
     textTitle.setText(scheduleDetail.listRow.talkTitle);
     textSpeakerName.setText(scheduleDetail.listRow.speakerName);
