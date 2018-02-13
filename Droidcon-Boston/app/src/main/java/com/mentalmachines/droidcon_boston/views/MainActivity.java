@@ -119,49 +119,49 @@ public class MainActivity extends AppCompatActivity {
             if (position < 3) {
                 ((NavigationAdapter) parent.getAdapter()).setSelectedIndex(position);
             } //others are contact links
-            String data = null;
-            final Fragment target;
+            String targetUrl = null;
+            final Fragment fragment;
             switch (position) {
                 case 0: //agenda
-                    target = new AgendaFragment();
+                    fragment = new AgendaFragment();
                     break;
                 case 1: //tweet
-                    target = new TweetsFragment();
+                    fragment = new TweetsFragment();
                     break;
                 case 2: //faq
-                    target = new FAQFragment();
+                    fragment = new FAQFragment();
                     break;
                 case 3: //contact us
-                    target = new WebFragment();
-                    data = NavigationAdapter.LN_CONTACT;
+                    fragment = new WebFragment();
+                    targetUrl = NavigationAdapter.LN_CONTACT;
                     break;
                 case 4: //contact, facebook
-                    target = new WebFragment();
-                    data = NavigationAdapter.LN_FB;
+                    fragment = new WebFragment();
+                    targetUrl = NavigationAdapter.LN_FB;
                     break;
                 case 5:
-                    target = new WebFragment();
-                    data = NavigationAdapter.LN_INSTA;
+                    fragment = new WebFragment();
+                    targetUrl = NavigationAdapter.LN_INSTA;
                     break;
                 case 6:
-                    target = new WebFragment();
-                    data = NavigationAdapter.LN_LINKD;
+                    fragment = new WebFragment();
+                    targetUrl = NavigationAdapter.LN_LINKD;
                     break;
                 case 7: //contact twitter, instagram, linked in
-                    target = new WebFragment();
-                    data = NavigationAdapter.LN_TWEET;
+                    fragment = new WebFragment();
+                    targetUrl = NavigationAdapter.LN_TWEET;
                     break;
                 default:
                     return;
             }
 
-            if (data != null) {
+            if (targetUrl != null) {
                 Bundle bundle = new Bundle();
-                bundle.putString("url", data);
-                target.setArguments(bundle);
+                bundle.putString("url", targetUrl);
+                fragment.setArguments(bundle);
             }
 
-            fragmentManager.beginTransaction().replace(R.id.fragment_container, target).commit();
+            fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
             fragmentManager.executePendingTransactions();
             mDrawerLayout.closeDrawer(GravityCompat.START);
         }
