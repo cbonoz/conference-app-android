@@ -24,11 +24,10 @@ public class WebFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+        final String url = getArguments().getString("url");
         // Inflate the layout for this fragment
-        String url = getArguments().getString("url");
-        View view = inflater.inflate(R.layout.fragment_web, container, false);
-
-        WebView webview = view.findViewById(R.id.webView);
+        final View view = inflater.inflate(R.layout.fragment_web, container, false);
+        final WebView webview = view.findViewById(R.id.webView);
 
         webview.getSettings().setJavaScriptEnabled(true);
 
