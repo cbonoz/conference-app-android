@@ -22,4 +22,7 @@
 
     <string name="action_bar_speaker_title">Speaker Profile</string>
     <string name="conference_name">Droidcon Boston</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
