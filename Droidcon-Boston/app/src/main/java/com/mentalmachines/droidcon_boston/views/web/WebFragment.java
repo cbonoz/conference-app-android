@@ -3,22 +3,17 @@ package com.mentalmachines.droidcon_boston.views.web;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 import com.mentalmachines.droidcon_boston.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class WebFragment extends Fragment {
 
 
@@ -44,6 +39,7 @@ public class WebFragment extends Fragment {
                 // The progress meter will automatically disappear when we reach 100%
                 activity.setProgress(progress * 1000);
             }
+
         });
         webview.setWebViewClient(new WebViewClient() {
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
